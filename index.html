@@ -15,7 +15,7 @@
         #terminal {
             border: 1px #00ff00;
             padding: 10px;
-            height: 400px;
+            height: 4000px;
             overflow-y: auto;
         }
         input {
@@ -38,6 +38,8 @@
         const input = document.getElementById('input');
 
         const commands = [
+            'Connection to remote server...',
+            'Connection succeded',
             'Starting memory dump',
             '512     4       smss.sh        0xa98dc9836480  2       -       N/A     False   2020-11-30 17:40:26.000000      N/A     enabled',
             '588     580     csrss.sh       0xa98dc9a56080  9       -       0       False   2020-11-30 17:40:27.000000      N/A     enabled',
@@ -47,17 +49,43 @@
             '744     656     winlogon.sh    0xa98dca06a340  2       -       1       False   2020-11-30 17:40:27.000000      N/A     enabled',
             '760     664     services.sh    0xa98dca0f1080  4       -       0       False   2020-11-30 17:40:27.000000      N/A     enabled',
             '............SNIP..........',
+            'Downloading exploit',
             '788     4160    chrome.sh      0xa98dca52e080  5       -       1       False   2020-11-30 17:42:42.000000      N/A     enabled',
             '4264    4160    chrome.sh      0xa98dc9d8b080  2       -       1       False   2020-11-30 17:42:43.000000      N/A     enabled',
             '3608    4160    chrome.sh      0xa98dca583080  4       -       1       False   2020-11-30 17:42:43.000000      N/A     enabled',
             '4668    4160    chrome.sh      0xa98dccc26800  8       -       1       False   2020-11-30 17:43:02.000000      N/A     enabled',
             '5452    3616    TrustMe.sh     0xa98dc9307800  1       -       1       True    2020-11-30 17:43:17.000000      N/A     enabled',
-            '5528    5452    cmd.exe 0xa98dca6bd080  1       -       1       True    2020-11-30 17:43:27.000000      N/A     Disabled',
-            '5536    5528    conhost.exe     0xa98dca6ba080  3       -       1       False   2020-11-30 17:43:27.000000      N/A     enabled',
-            '5984    5528    net.exe 0xa98dcc17a080  0       -       1       True    2020-11-30 17:44:38.000000      2020-11-30 17:44:38.000000      enabled',
-            '5848    3616    cmd.exe 0xa98dcaa2e080  1       -       1       False   2020-11-30 17:54:17.000000      N/A     enabled',
+            '5528    5452    termux.sh 0xa98dca6bd080  1       -       1       True    2020-11-30 17:43:27.000000      N/A     Disabled',
+            '5536    5528    conhost.sh     0xa98dca6ba080  3       -       1       False   2020-11-30 17:43:27.000000      N/A     enabled',
+            '5984    5528    net.sh 0xa98dcc17a080  0       -       1       True    2020-11-30 17:44:38.000000      2020-11-30 17:44:38.000000      enabled',
+            '5848    3616    cmd.sh 0xa98dcaa2e080  1       -       1       False   2020-11-30 17:54:17.000000      N/A     enabled',
             'pwd',
+            '/data/data/whatsapp_files/',
+            '/data/android/shared_files/photos',
+            'Scanning passwords',
+            'Facebook.com 01dfae6e5d4d90d9892622325959afbe:7050461',
+            'Instagram.com cac35ec206d868b7d7cb0b55f31d9425b075082b:5363620024',
+            'Google.com HMAC-SHA1 (key = $salt)	d89c92b4400b15c39e462a8caa939ab40c3aeeea:1234',
+            'Whatsapp encryption key md5(utf16le($pass).$salt)	b31d032cfdcf47a399990a71e43c5d2a:144816',
+            '	TrueCrypt 5.0+ SHA51   	4f5edca01734e03dd7e735362625a76e6bcb61b2:52355614946067',
             'Scanning open ports',
+            'taskbegin task="Ping Scan" time="1201479013" ',
+            'taskend task="Ping Scan" time="1201479014" extrainfo="8 total hosts" ',
+            'taskbegin task="Parallel DNS resolution of 8 hosts." time="1201479014" ',
+            'taskend task="Parallel DNS resolution of 8 hosts." time="1201479015" ',
+            'taskbegin task="System CNAME DNS resolution of 4 hosts." time="1201479015" ',
+            'taskend task="System CNAME DNS resolution of 4 hosts." time="1201479016" ',
+            'taskbegin task="SYN Stealth Scan" time="1201479016" ',
+            'taskprogress task="SYN Stealth Scan" time="1201479046" percent="3.22" remaining="903" etc="1201479949" ',
+            'taskprogress task="SYN Stealth Scan" time="1201479442" percent="56.66" remaining="325" etc="1201479767" ',
+            'taskprogress task="SYN Stealth Scan" time="1201479770" percent="77.02" remaining="225" etc="1201479995" ',
+            'taskprogress task="SYN Stealth Scan" time="1201479996" percent="81.95" remaining="215" etc="1201480212" ',
+            'taskprogress task="SYN Stealth Scan" time="1201480213" percent="86.79" remaining="182" etc="1201480395" ',
+            'taskprogress task="SYN Stealth Scan" time="1201480260" percent="87.84" remaining="172" etc="1201480433" ',
+            'taskprogress task="SYN Stealth Scan" time="1201480435" percent="91.65" remaining="129" etc="1201480564" ',
+            'taskprogress task="SYN Stealth Scan" time="1201480565" percent="94.43" remaining="91" etc="1201480656" ',
+            'taskprogress task="SYN Stealth Scan" time="1201480658" percent="96.35" remaining="62" etc="1201480720" ',
+            'taskprogress task="SYN Stealth Scan" time="1201480721" percent="97.76" remaining="39" etc="1201480760" ',
             'Getting root access',
             'cat /etc/os-release',
             'Getting devide info',
@@ -66,21 +94,14 @@
             'adb shell getprop ro.hardware',
             'adb shell getprop ro.product.model',
             'adb shell cat /proc/version',
-            'Getting device data',
-            '01dfae6e5d4d90d9892622325959afbe:7050461',
-            'cac35ec206d868b7d7cb0b55f31d9425b075082b:5363620024',
-            'HMAC-SHA1 (key = $salt)	d89c92b4400b15c39e462a8caa939ab40c3aeeea:1234',
-            'md5(utf16le($pass).$salt)	b31d032cfdcf47a399990a71e43c5d2a:144816',
-            '	TrueCrypt 5.0+ SHA51   	4f5edca01734e03dd7e735362625a76e6bcb61b2:52355614946067'
+            'Device Scanning Succesful',
         ];
 
-        function getRandomCommand() {
-            return commands[Math.floor(Math.random() * commands.length)];
-        }
+        let currentCommandIndex = 0;
 
         function executeCommand(command) {
             terminal.innerHTML += `<div>$ ${command}</div>`;
-            const response = `Comando ejecutado: ${command}`;
+            const response = ` ${command}`;
             terminal.innerHTML += `<div>${response}</div>`;
             terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
         }
@@ -93,19 +114,20 @@
             }
         });
 
-        // Ejecutar un comando aleatorio cada 5 segundos
-        const interval = setInterval(() => {
-            const randomCommand = getRandomCommand();
-            executeCommand(randomCommand);
-        }, 200);
-
-        // Mostrar el mensaje de hackeo después de 5 segundos
-        setTimeout(() => {
-            clearInterval(interval); // Detener la ejecución de comandos aleatorios
-            terminal.innerHTML = ''; // Limpiar la terminal
-            terminal.innerHTML += `<div style="color: red; font-size: 24px;">¡HAS SIDO HACKEADO!</div>`;
-            terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
-        }, 5000);
+        // Ejecutar los comandos en orden
+        const commandInterval = setInterval(() => {
+            if (currentCommandIndex < commands.length) {
+                executeCommand(commands[currentCommandIndex]);
+                currentCommandIndex++;
+            } else {
+                clearInterval(commandInterval); // Detener la ejecución de comandos
+                setTimeout(() => {
+                    terminal.innerHTML = ''; // Limpiar la terminal
+                    terminal.innerHTML += `<div style="color: red; font-size: 24px;">¡HAS SIDO HACKEADO!</div>`;
+                    terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
+                }, 1500); // Esperar 1 segundo antes de mostrar el mensaje
+            }
+        }, 200); // Esperar 2 segundos entre comandos
     });
 </script>
 

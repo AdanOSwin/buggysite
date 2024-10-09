@@ -13,7 +13,7 @@
             padding: 20px;
         }
         #terminal {
-            border: 1px #00ff00;
+            border: 1px solid #00ff00;
             padding: 10px;
             height: 400px;
             overflow-y: auto;
@@ -38,45 +38,19 @@
         const input = document.getElementById('input');
 
         const commands = [
-            'Starting memory dump',
-            '512     4       smss.sh        0xa98dc9836480  2       -       N/A     False   2020-11-30 17:40:26.000000      N/A     enabled',
-            '588     580     csrss.sh       0xa98dc9a56080  9       -       0       False   2020-11-30 17:40:27.000000      N/A     enabled',
-            '656     512     smss.sh        0xa98dc98e6080  0       -       1       False   2020-11-30 17:40:27.000000      2020-11-30 17:40:27.000000      enabled',
-            '664     580     wininit.sh     0xa98dc9f74800  1       -       0       False   2020-11-30 17:40:27.000000      N/A     enabled',
-            '672     656     csrss.sh     0xa98dca06b080  11      -       1       False   2020-11-30 17:40:27.000000      N/A     enabled',
-            '744     656     winlogon.sh    0xa98dca06a340  2       -       1       False   2020-11-30 17:40:27.000000      N/A     enabled',
-            '760     664     services.sh    0xa98dca0f1080  4       -       0       False   2020-11-30 17:40:27.000000      N/A     enabled',
-            '............SNIP..........',
-            '788     4160    chrome.sh      0xa98dca52e080  5       -       1       False   2020-11-30 17:42:42.000000      N/A     enabled',
-            '4264    4160    chrome.sh      0xa98dc9d8b080  2       -       1       False   2020-11-30 17:42:43.000000      N/A     enabled',
-            '3608    4160    chrome.sh      0xa98dca583080  4       -       1       False   2020-11-30 17:42:43.000000      N/A     enabled',
-            '4668    4160    chrome.sh      0xa98dccc26800  8       -       1       False   2020-11-30 17:43:02.000000      N/A     enabled',
-            '5452    3616    TrustMe.sh     0xa98dc9307800  1       -       1       True    2020-11-30 17:43:17.000000      N/A     enabled',
-            '5528    5452    cmd.exe 0xa98dca6bd080  1       -       1       True    2020-11-30 17:43:27.000000      N/A     Disabled',
-            '5536    5528    conhost.exe     0xa98dca6ba080  3       -       1       False   2020-11-30 17:43:27.000000      N/A     enabled',
-            '5984    5528    net.exe 0xa98dcc17a080  0       -       1       True    2020-11-30 17:44:38.000000      2020-11-30 17:44:38.000000      enabled',
-            '5848    3616    cmd.exe 0xa98dcaa2e080  1       -       1       False   2020-11-30 17:54:17.000000      N/A     enabled',
+            'ls',
             'pwd',
-            'Scanning open ports',
-            'Getting root access',
+            'whoami',
+            'date',
+            'echo "Hola, mundo!"',
+            'top',
+            'df -h',
+            'free -m',
             'cat /etc/os-release',
-            'Getting devide info',
-            'adb -s 123abc12 shell getprop',
-            'adb -s 123abc12 shell getprop ro.product.model',
-            'adb shell getprop ro.hardware',
-            'adb shell getprop ro.product.model',
-            'adb shell cat /proc/version',
-            'Getting device data',
-            '01dfae6e5d4d90d9892622325959afbe:7050461',
-            'cac35ec206d868b7d7cb0b55f31d9425b075082b:5363620024',
-            'HMAC-SHA1 (key = $salt)	d89c92b4400b15c39e462a8caa939ab40c3aeeea:1234',
-            'md5(utf16le($pass).$salt)	b31d032cfdcf47a399990a71e43c5d2a:144816',
-            '	TrueCrypt 5.0+ SHA51   	4f5edca01734e03dd7e735362625a76e6bcb61b2:52355614946067'
+            'uname -a'
         ];
 
-        function getRandomCommand() {
-            return commands[Math.floor(Math.random() * commands.length)];
-        }
+        let currentCommandIndex = 0;
 
         function executeCommand(command) {
             terminal.innerHTML += `<div>$ ${command}</div>`;
@@ -93,19 +67,20 @@
             }
         });
 
-        // Ejecutar un comando aleatorio cada 5 segundos
-        const interval = setInterval(() => {
-            const randomCommand = getRandomCommand();
-            executeCommand(randomCommand);
-        }, 200);
-
-        // Mostrar el mensaje de hackeo después de 5 segundos
-        setTimeout(() => {
-            clearInterval(interval); // Detener la ejecución de comandos aleatorios
-            terminal.innerHTML = ''; // Limpiar la terminal
-            terminal.innerHTML += `<div style="color: red; font-size: 24px;">¡HAS SIDO HACKEADO!</div>`;
-            terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
-        }, 5000);
+        // Ejecutar los comandos en orden
+        const commandInterval = setInterval(() => {
+            if (currentCommandIndex < commands.length) {
+                executeCommand(commands[currentCommandIndex]);
+                currentCommandIndex++;
+            } else {
+                clearInterval(commandInterval); // Detener la ejecución de comandos
+                setTimeout(() => {
+                    terminal.innerHTML = ''; // Limpiar la terminal
+                    terminal.innerHTML += `<div style="color: red; font-size: 24px;">¡HAS SIDO HACKEADO!</div>`;
+                    terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
+                }, 1000); // Esperar 1 segundo antes de mostrar el mensaje
+            }
+        }, 2000); // Esperar 2 segundos entre comandos
     });
 </script>
 
