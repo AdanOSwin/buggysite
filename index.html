@@ -15,7 +15,7 @@
         #terminal {
             border: 1px #00ff00;
             padding: 10px;
-            height: 600px;
+            height: 650px;
             overflow-y: auto;
         }
         input {
@@ -144,7 +144,7 @@
                         clearInterval(commandInterval); // Detener la ejecución de comandos
                         setTimeout(() => {
                             terminal.innerHTML = ''; // Limpiar la terminal
-                            terminal.innerHTML += `<div class="hack-message">¡HAS SIDO HACKEADO!<br> Bienvenido al mundo del Ransomware</div>`;
+                            terminal.innerHTML += `<div class="hack-message">¡HAS SIDO HACKEADO!</div>`;
                             terminal.innerHTML += `<img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Anonymous.svg" alt="Hackeado">`;
                             terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
                         }, 400); // Esperar 1 segundo antes de mostrar el mensaje
