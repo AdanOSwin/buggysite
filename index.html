@@ -81,8 +81,7 @@
         let currentCommandIndex = 0;
 
         function executeCommand(command) {
-            terminal.innerHTML += `<div>$ ${command}</div>`;
-            terminal.innerHTML += `<div>${response}</div>`;
+            terminal.innerHTML += `<div> ${command}</div>`;
             terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
         }
 
