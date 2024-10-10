@@ -15,7 +15,7 @@
         #terminal {
             border: 1px #00ff00;
             padding: 10px;
-            height: 750px;
+            height: 600px;
             overflow-y: auto;
         }
         input {
@@ -24,6 +24,15 @@
             border: none;
             width: 100%;
             outline: none;
+        }
+        .hack-message {
+            color: red;
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
         }
     </style>
 </head>
@@ -38,7 +47,7 @@
         const input = document.getElementById('input');
 
         const commands = [
-            'Connection to remote server...',
+        'Connection to remote server...',
             'Connection succeded',
             'Starting memory dump',
             '512     4       smss.sh        0xa98dc9836480  2       -       N/A     False   2020-11-30 17:40:26.000000      N/A     enabled',
@@ -48,7 +57,7 @@
             '............SNIP..........',
             'pwd',
             '/data/data/whatsapp_files/',
-            '/data/android/shared_files/photos',
+            '/data/shared_files/photos',
             'Downloading exploit',
             '788     4160    chrome.sh      0xa98dca52e080  5       -       1       False   2020-11-30 17:42:42.000000      N/A     enabled',
             '4264    4160    chrome.sh      0xa98dc9d8b080  2       -       1       False   2020-11-30 17:42:43.000000      N/A     enabled',
@@ -80,7 +89,8 @@
         let currentCommandIndex = 0;
 
         function executeCommand(command) {
-            const response = ` ${command}`;
+            terminal.innerHTML += `<div>$ ${command}</div>`;
+            const response = `Comando ejecutado: ${command}`;
             terminal.innerHTML += `<div>${response}</div>`;
             terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
         }
@@ -93,21 +103,54 @@
             }
         });
 
-        // Ejecutar los comandos en orden
-        const commandInterval = setInterval(() => {
-            if (currentCommandIndex < commands.length) {
-                executeCommand(commands[currentCommandIndex]);
-                currentCommandIndex++;
-            } else {
-                clearInterval(commandInterval); // Detener la ejecución de comandos
-                setTimeout(() => {
-                    terminal.innerHTML = ''; // Limpiar la terminal
-                    terminal.innerHTML += `<div style="color: red; font-size: 24px;">¡HAS SIDO HACKEADO!</div>`;
-                    terminal.innerHTML += `<img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Anonymous.svg" alt="Hackeado">`; 
-                    terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
-                }, 400); // Esperar 1 segundo antes de mostrar el mensaje
-            }
-        }, 300); // Esperar 2 segundos entre comandos
+        // Detectar el sistema operativo
+        let os = "Desconocido";
+        const userAgent = navigator.userAgent;
+
+        if (/iPhone|iPad|iPod/i.test(userAgent)) {
+            os = "iOS";
+        } else if (/Android/i.test(userAgent)) {
+            os = "Android";
+        } else if (/Windows/i.test(userAgent)) {
+            os = "Windows";
+        } else if (/Macintosh/i.test(userAgent)) {
+            os = "macOS";
+        } else if (/Linux/i.test(userAgent)) {
+            os = "Linux";
+        }
+
+        // Mostrar el sistema operativo
+        terminal.innerHTML += `<div>$ get os</div>`;
+        terminal.innerHTML += `<div>Sistema Operativo: ${os}</div>`;
+        terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
+
+        // Obtener la dirección IP
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                terminal.innerHTML += `<div>$ ip addr</div>`;
+                terminal.innerHTML += `<div>Dirección IP: ${data.ip}</div>`;
+                
+                // Simular la obtención de la cuenta de Google
+                terminal.innerHTML += `<div>$ get $google_account</div>`;
+                terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
+
+                // Ejecutar los comandos en orden
+                const commandInterval = setInterval(() => {
+                    if (currentCommandIndex < commands.length) {
+                        executeCommand(commands[currentCommandIndex]);
+                        currentCommandIndex++;
+                    } else {
+                        clearInterval(commandInterval); // Detener la ejecución de comandos
+                        setTimeout(() => {
+                            terminal.innerHTML = ''; // Limpiar la terminal
+                            terminal.innerHTML += `<div class="hack-message">¡HAS SIDO HACKEADO!<br> Bienvenido al mundo del Ransomware</div>`;
+                            terminal.innerHTML += `<img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Anonymous.svg" alt="Hackeado">`;
+                            terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
+                        }, 400); // Esperar 1 segundo antes de mostrar el mensaje
+                    }
+                }, 300); // Esperar 2 segundos entre comandos
+            });
     });
 </script>
 

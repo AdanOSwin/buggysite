@@ -13,9 +13,9 @@
             padding: 20px;
         }
         #terminal {
-            border: 1px solid #00ff00;
+            border: 1px #00ff00;
             padding: 10px;
-            height: 400px;
+            height: 600px;
             overflow-y: auto;
         }
         input {
@@ -24,6 +24,15 @@
             border: none;
             width: 100%;
             outline: none;
+        }
+        .hack-message {
+            color: red;
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
         }
     </style>
 </head>
@@ -38,16 +47,43 @@
         const input = document.getElementById('input');
 
         const commands = [
-            'ls',
+        'Connection to remote server...',
+            'Connection succeded',
+            'Starting memory dump',
+            '512     4       smss.sh        0xa98dc9836480  2       -       N/A     False   2020-11-30 17:40:26.000000      N/A     enabled',
+            '588     580     csrss.sh       0xa98dc9a56080  9       -       0       False   2020-11-30 17:40:27.000000      N/A     enabled',
+            '744     656     winlogon.sh    0xa98dca06a340  2       -       1       False   2020-11-30 17:40:27.000000      N/A     enabled',
+            '760     664     services.sh    0xa98dca0f1080  4       -       0       False   2020-11-30 17:40:27.000000      N/A     enabled',
+            '............SNIP..........',
             'pwd',
-            'whoami',
-            'date',
-            'echo "Hola, mundo!"',
-            'top',
-            'df -h',
-            'free -m',
+            '/data/data/whatsapp_files/',
+            '/data/shared_files/photos',
+            'Downloading exploit',
+            '788     4160    chrome.sh      0xa98dca52e080  5       -       1       False   2020-11-30 17:42:42.000000      N/A     enabled',
+            '4264    4160    chrome.sh      0xa98dc9d8b080  2       -       1       False   2020-11-30 17:42:43.000000      N/A     enabled',
+            'Scanning passwords',
+            'Facebook.com 01dfae6e5d4d90d9892622325959afbe:7050461',
+            'Instagram.com cac35ec206d868b7d7cb0b55f31d9425b075082b:5363620024',
+            'Google.com HMAC-SHA1 (key = $salt)	d89c92b4400b15c39e462a8caa939ab40c3aeeea:1234',
+            'Whatsapp encryption key md5(utf16le($pass).$salt)	b31d032cfdcf47a399990a71e43c5d2a:144816',
+            '	TrueCrypt 5.0+ SHA51   	4f5edca01734e03dd7e735362625a76e6bcb61b2:52355614946067',
+            'Scanning open ports',
+            'taskend task="Ping Scan" time="1201479014" extrainfo="8 total hosts" ',
+            'taskbegin task="Parallel DNS resolution of 8 hosts." time="1201479014" ',
+            'taskprogress task="SYN Stealth Scan" time="1201479442" percent="56.66" remaining="325" etc="1201479767" ',
+            'taskprogress task="SYN Stealth Scan" time="1201479770" percent="77.02" remaining="225" etc="1201479995" ',
+            'taskprogress task="SYN Stealth Scan" time="1201480213" percent="86.79" remaining="182" etc="1201480395" ',
+            'taskprogress task="SYN Stealth Scan" time="1201480565" percent="94.43" remaining="91" etc="1201480656" ',
+            'taskprogress task="SYN Stealth Scan" time="1201480721" percent="97.76" remaining="39" etc="1201480760" ',
+            'Getting root access',
             'cat /etc/os-release',
-            'uname -a'
+            'Getting device info',
+            'adb -s 123abc12 shell getprop',
+            'adb -s 123abc12 shell getprop ro.product.model',
+            'adb shell getprop ro.hardware',
+            'adb shell getprop ro.product.model',
+            'adb shell cat /proc/version',
+            'Device Scanning Succesful',
         ];
 
         let currentCommandIndex = 0;
@@ -67,20 +103,54 @@
             }
         });
 
-        // Ejecutar los comandos en orden
-        const commandInterval = setInterval(() => {
-            if (currentCommandIndex < commands.length) {
-                executeCommand(commands[currentCommandIndex]);
-                currentCommandIndex++;
-            } else {
-                clearInterval(commandInterval); // Detener la ejecución de comandos
-                setTimeout(() => {
-                    terminal.innerHTML = ''; // Limpiar la terminal
-                    terminal.innerHTML += `<div style="color: red; font-size: 24px;">¡HAS SIDO HACKEADO!</div>`;
-                    terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
-                }, 1000); // Esperar 1 segundo antes de mostrar el mensaje
-            }
-        }, 2000); // Esperar 2 segundos entre comandos
+        // Detectar el sistema operativo
+        let os = "Desconocido";
+        const userAgent = navigator.userAgent;
+
+        if (/iPhone|iPad|iPod/i.test(userAgent)) {
+            os = "iOS";
+        } else if (/Android/i.test(userAgent)) {
+            os = "Android";
+        } else if (/Windows/i.test(userAgent)) {
+            os = "Windows";
+        } else if (/Macintosh/i.test(userAgent)) {
+            os = "macOS";
+        } else if (/Linux/i.test(userAgent)) {
+            os = "Linux";
+        }
+
+        // Mostrar el sistema operativo
+        terminal.innerHTML += `<div>$ get os</div>`;
+        terminal.innerHTML += `<div>Sistema Operativo: ${os}</div>`;
+        terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
+
+        // Obtener la dirección IP
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                terminal.innerHTML += `<div>$ ip addr</div>`;
+                terminal.innerHTML += `<div>Dirección IP: ${data.ip}</div>`;
+                
+                // Simular la obtención de la cuenta de Google
+                terminal.innerHTML += `<div>$ get $google_account</div>`;
+                terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
+
+                // Ejecutar los comandos en orden
+                const commandInterval = setInterval(() => {
+                    if (currentCommandIndex < commands.length) {
+                        executeCommand(commands[currentCommandIndex]);
+                        currentCommandIndex++;
+                    } else {
+                        clearInterval(commandInterval); // Detener la ejecución de comandos
+                        setTimeout(() => {
+                            terminal.innerHTML = ''; // Limpiar la terminal
+                            terminal.innerHTML += `<div class="hack-message">¡HAS SIDO HACKEADO!<br> Bienvenido al mundo del Ransomware</div>`;
+                            terminal.innerHTML += `<img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Anonymous.svg" alt="Hackeado">`;
+                            terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
+                        }, 400); // Esperar 1 segundo antes de mostrar el mensaje
+                    }
+                }, 300); // Esperar 2 segundos entre comandos
+            });
     });
 </script>
 
