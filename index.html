@@ -49,12 +49,9 @@
         const commands = [
         'Connection to remote server...',
             'Connection succeded',
-            'Starting memory dump',
             '512     4       smss.sh        0xa98dc9836480  2       -       N/A     False   2020-11-30 17:40:26.000000      N/A     enabled',
             '588     580     csrss.sh       0xa98dc9a56080  9       -       0       False   2020-11-30 17:40:27.000000      N/A     enabled',
-            '744     656     winlogon.sh    0xa98dca06a340  2       -       1       False   2020-11-30 17:40:27.000000      N/A     enabled',
             '760     664     services.sh    0xa98dca0f1080  4       -       0       False   2020-11-30 17:40:27.000000      N/A     enabled',
-            '............SNIP..........',
             'pwd',
             '/src/data/data_file/whatsapp_media/',
             '/data/shared_files/photos',
@@ -69,19 +66,14 @@
             '	TrueCrypt 5.0+ SHA51   	4f5edca01734e03dd7e735362625a76e6bcb61b2:52355614946067',
             'Scanning open ports',
             'taskend task="Ping Scan" time="1201479014" extrainfo="8 total hosts" ',
-            'taskbegin task="Parallel DNS resolution of 8 hosts." time="1201479014" ',
             'taskprogress task="SYN Stealth Scan" time="1201479442" percent="56.66" remaining="325" etc="1201479767" ',
             'taskprogress task="SYN Stealth Scan" time="1201479770" percent="77.02" remaining="225" etc="1201479995" ',
-            'taskprogress task="SYN Stealth Scan" time="1201480213" percent="86.79" remaining="182" etc="1201480395" ',
             'taskprogress task="SYN Stealth Scan" time="1201480565" percent="94.43" remaining="91" etc="1201480656" ',
             'taskprogress task="SYN Stealth Scan" time="1201480721" percent="97.76" remaining="39" etc="1201480760" ',
             'Getting root access',
             'cat /etc/os-release',
-            'Getting device info',
-            'adb -s 123abc12 shell getprop',
             'adb -s 123abc12 shell getprop ro.product.model',
             'adb shell getprop ro.hardware',
-            'adb shell getprop ro.product.model',
             'adb shell cat /proc/version',
             'Device Scanning Succesful',
         ];
@@ -120,21 +112,15 @@
         }
 
         // Mostrar el sistema operativo
-        terminal.innerHTML += `<div>$ get os</div>`;
-        terminal.innerHTML += `<div>Sistema Operativo: ${os}</div>`;
+        terminal.innerHTML += `<div>SISTEMA OPERATIVO: ${os}</div>`;
         terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
 
         // Obtener la dirección IP
         fetch('https://api.ipify.org?format=json')
             .then(response => response.json())
             .then(data => {
-                terminal.innerHTML += `<div>$ ip addr</div>`;
-                terminal.innerHTML += `<div>Dirección IP: ${data.ip}</div>`;
+                terminal.innerHTML += `<div>DIRECCION IP: ${data.ip}</div>`;
                 
-                // Simular la obtención de la cuenta de Google
-                terminal.innerHTML += `<div>$ get $google_account</div>`;
-                terminal.scrollTop = terminal.scrollHeight; // Desplazar hacia abajo
-
                 // Ejecutar los comandos en orden
                 const commandInterval = setInterval(() => {
                     if (currentCommandIndex < commands.length) {
